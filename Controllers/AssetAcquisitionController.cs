@@ -11,10 +11,10 @@ using Serilog;
 
 namespace FixedAsset.Controllers
 {
-    public class AssetDisposalController : ApiController
+    public class AssetAcquisitionController : ApiController
     {
 
-        public AssetDisposalController()
+        public AssetAcquisitionController()
         {
             Serilog.Debugging.SelfLog.Out = Console.Out;
 
@@ -30,23 +30,24 @@ namespace FixedAsset.Controllers
         [Authorize]
         // POST api/assetdisposal
         public HttpResponseMessage Post(
-            [FromBody] AssetDisposalRequest assetDisposalRequest,
+            [FromBody] AssetAcquisitionRequest assetAcquisitionRequest,
           
-            bool? validateOnly = null)
+            bool? validateOnly = null,
+            string asserttype=null)
         {
             var result = new HttpResponseMessage(HttpStatusCode.InternalServerError);
 
             try
             {
-                if (assetDisposalRequest == null || 
-                    assetDisposalRequest.DisposalRecords == null || 
-                    assetDisposalRequest.DisposalRecords.Count == 0)
+                if (assetAcquisitionRequest == null ||
+                    assetAcquisitionRequest.AcquisitionRecords == null ||
+                    assetAcquisitionRequest.AcquisitionRecords.Count == 0)
                 {
-                    var message = "Asset disposal web service call missing BODY parameters";
+                    var message = "Asset acquisition web service call missing BODY parameters";
                     Log.Warning(message);
 
-                    assetDisposalRequest =
-                        new AssetDisposalRequest(
+                    assetAcquisitionRequest =
+                        new AssetAcquisitionRequest(
                             null,
                             new ResponseMessage(
                                 HttpStatusCode.BadRequest,
@@ -58,7 +59,7 @@ namespace FixedAsset.Controllers
                 {
                     Log.Information(
                             "Call received - parameters: {params}",
-                            JsonConvert.SerializeObject(assetDisposalRequest));
+                            JsonConvert.SerializeObject(assetAcquisitionRequest));
 
                     SapAccess sapAccess = null;
                     try
@@ -69,8 +70,8 @@ namespace FixedAsset.Controllers
 
                         var validateOnlyFlag = validateOnly ?? false;
 
-                        sapAccess.AssetDisposal(
-                            assetDisposalRequest, validateOnlyFlag);
+                        sapAccess.AssetAcquisition(
+                            assetAcquisitionRequest, validateOnlyFlag,"host");
                     }
                     finally
                     {
@@ -80,10 +81,10 @@ namespace FixedAsset.Controllers
             }
             catch (Exception exception)
             {
-                assetDisposalRequest.ResponseMessage = 
+                assetAcquisitionRequest.ResponseMessage = 
                     new ResponseMessage(HttpStatusCode.InternalServerError, 
                         exception.Message);
-                Log.Error(exception, "Error inside assetdisposal");
+                Log.Error(exception, "Error inside asset Acquisition");
             }
             finally
             {
@@ -92,15 +93,15 @@ namespace FixedAsset.Controllers
             DateTime start = DateTime.Now;
             result.Content =
                 new StringContent(
-                    JsonConvert.SerializeObject(assetDisposalRequest),
+                    JsonConvert.SerializeObject(assetAcquisitionRequest),
                     System.Text.Encoding.UTF8,
                     "application/json");
-            result.StatusCode = assetDisposalRequest.ResponseMessage.responseCode;
+            result.StatusCode = assetAcquisitionRequest.ResponseMessage.responseCode;
            
            // Log.Information("=====================================================================");
             Log.Information(
                             "Response - parameters: {params}",
-                            JsonConvert.SerializeObject(assetDisposalRequest));
+                            JsonConvert.SerializeObject(assetAcquisitionRequest));
             DateTime end = DateTime.Now;
             TimeSpan ts = (end - start);
             Log.Information("=====================================================================");

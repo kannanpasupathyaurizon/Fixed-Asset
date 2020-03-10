@@ -25,7 +25,7 @@ namespace FixedAsset.Models
         public DateTime? PostingDate;
 
         [DataMember]
-        public DateTime? TransactionDate;
+        public DateTime? ValueDate;
 
         [DataMember]
         public string PartialDisposal;
@@ -58,7 +58,7 @@ namespace FixedAsset.Models
 
             DateTime? documentDate,
             DateTime? postingDate,
-            DateTime? transactionDate,
+            DateTime? valueDate,
             string partialDisposal,
             string proceedFromSales,
             string itemText,
@@ -75,7 +75,7 @@ namespace FixedAsset.Models
 
             this.DocumentDate = documentDate;
             this.PostingDate = postingDate;
-            this.TransactionDate = transactionDate;
+            this.ValueDate = valueDate;
             this.PartialDisposal = partialDisposal;
             this.ProceedFromSales = proceedFromSales;
             this.Text = itemText;

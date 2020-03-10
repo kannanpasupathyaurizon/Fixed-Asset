@@ -137,7 +137,43 @@ namespace FixedAsset.Sap
                 Log.Error(exception, "Error Getting Non SSO Ticket: exception");
             }
         }
+        public void AssetAcquisitionSearch(
+          AssetAcquisitionSearch assetAcquisitionSearch)
+        {
+            assetAcquisitionSearch.ResponseMessage = new ResponseMessage(HttpStatusCode.InternalServerError);
 
+            string message;
+
+            try
+            {
+                var continueProcessing = false;
+
+                sapConnect.MakeNonSsoConnection();
+
+
+                if (sapConnect.r3Connection == null || sapConnect.r3Connection.IsOpen == false)
+                {
+                    message = "Non SSo Connection returned no connection";
+                    Log.Error(message);
+                    assetAcquisitionSearch.ResponseMessage = new ResponseMessage(HttpStatusCode.InternalServerError, message);
+                }
+                else
+                {
+                    continueProcessing = true;
+                    Log.Information("Connection established successfully.");
+                }
+
+                if (continueProcessing)
+                {
+
+                    new bapiCalls().SapAssetAcquisitionSearch(sapConnect.r3Connection, assetAcquisitionSearch);
+                }
+            }
+            catch (Exception exception)
+            {
+                Log.Error(exception, "Error Getting Non SSO Ticket: exception");
+            }
+        }
         public void MiscFixedAssetSearch(
            MiscFixedAssetSearch miscFixedAssetSearch)
         {
@@ -186,17 +222,32 @@ namespace FixedAsset.Sap
             try
             {
                 var continueProcessing = false;
-
+                if (validateOnlyFlag == true)
+                {
                     sapConnect.MakeNonSsoConnection();
+                }
+                else
+                {
+                    sapConnect.MakeCookieConnection(true);
+                }
 
                     if (sapConnect.r3Connection != null && sapConnect.r3Connection.IsOpen == true)
                     {
                         continueProcessing = true;
                     Log.Information("Connection established successfully.");
-                }
+
+                     }
                     else
                     {
+                    if (validateOnlyFlag == true)
+                    {
                         message = "Non SSo Connection returned no connection";
+                    }
+                    else
+                    {
+                        message = "SSo Connection returned no connection";
+                    }
+                   
                         Log.Error(message);
                         assetDisposalRequest.ResponseMessage = 
                             new ResponseMessage(
@@ -257,6 +308,61 @@ namespace FixedAsset.Sap
             catch (Exception exception)
             {
                 Log.Error(exception, "Error Getting SSO Ticket: exception");
+            }
+        }
+        
+        public void AssetAcquisition(
+            AssetAcquisitionRequest assetAcquisitionRequest, bool validateOnlyFlag
+            ,string asserttype
+            )
+        {
+            assetAcquisitionRequest.ResponseMessage = new ResponseMessage(HttpStatusCode.InternalServerError);
+
+            string message;
+
+            try
+            {
+                var continueProcessing = false;
+
+                if (validateOnlyFlag == true)
+                {
+                    sapConnect.MakeNonSsoConnection();
+                }
+                else
+                {
+                    sapConnect.MakeCookieConnection(true);
+                }
+
+                if (sapConnect.r3Connection != null && sapConnect.r3Connection.IsOpen == true)
+                {
+                    continueProcessing = true;
+                    Log.Information("Connection established successfully.");
+                }
+                else
+                {
+                    message = "Non SSo Connection returned no connection";
+                    Log.Error(message);
+                    assetAcquisitionRequest.ResponseMessage =
+                        new ResponseMessage(
+                            HttpStatusCode.InternalServerError,
+                            message);
+                }
+
+                if (continueProcessing)
+                {
+
+                    new bapiCalls()
+                        .SapAssetAcquisition(
+                            sapConnect.r3Connection,
+                            assetAcquisitionRequest,
+                            validateOnlyFlag
+                            , asserttype
+                            );
+                }
+            }
+            catch (Exception exception)
+            {
+                Log.Error(exception, "Error Getting Non SSO Ticket: exception");
             }
         }
         ~SapAccess()

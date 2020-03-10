@@ -89,7 +89,9 @@ namespace FixedAsset.Controllers
                     System.Text.Encoding.UTF8,
                     "application/json");
             result.StatusCode = miscFixedAssetSearch.ResponseMessage.responseCode;
-
+            Log.Information(
+                             "Response - parameters: {params}",
+                             JsonConvert.SerializeObject(miscFixedAssetSearch));
             return result;
         }
 

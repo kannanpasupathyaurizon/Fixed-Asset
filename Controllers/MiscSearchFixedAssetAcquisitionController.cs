@@ -11,10 +11,10 @@ using Serilog;
 
 namespace FixedAsset.Controllers
 {
-    public class SearchFixedAssetTransferController : ApiController
+    public class MiscSearchFixedAssetAcquisitionController : ApiController
     {
 
-        public SearchFixedAssetTransferController()
+        public MiscSearchFixedAssetAcquisitionController()
         {
             Serilog.Debugging.SelfLog.Out = Console.Out;
 
@@ -30,16 +30,16 @@ namespace FixedAsset.Controllers
         [Authorize]
         // POST api/searchasset
         public HttpResponseMessage Post(
-            [FromBody] AssetTransferSearch assetTransferSearch)
+            [FromBody] MiscFixedAssetSearch miscFixedAssetSearch)
         {
             var result = new HttpResponseMessage(HttpStatusCode.InternalServerError);
 
             try
             {
-                if (assetTransferSearch == null)
+                if (miscFixedAssetSearch == null)
                 {
-                    assetTransferSearch = 
-                        new AssetTransferSearch("",
+                    miscFixedAssetSearch = 
+                        new MiscFixedAssetSearch("", "", "", "", "",
                             "",
                             "",
                             null,
@@ -47,14 +47,14 @@ namespace FixedAsset.Controllers
                             null,
                             new ResponseMessage(
                                 HttpStatusCode.BadRequest,
-                                "Fixed asset transfer search web service call missing BODY parameters"),
+                                "Misc Fixed asset acquisition search web service call missing BODY parameters"),
                             null);
                 }
                 else
                 {
                     Log.Information(
                         "Call received - parameters: {params}",
-                        JsonConvert.SerializeObject(assetTransferSearch));
+                        JsonConvert.SerializeObject(miscFixedAssetSearch));
 
                     SapAccess sapAccess = null;
                     try
@@ -62,8 +62,8 @@ namespace FixedAsset.Controllers
                         sapAccess = new SapAccess();
                         this.Request.RegisterForDispose(sapAccess);                       
 
-                        sapAccess.AssetTransferSearch(
-                            assetTransferSearch);
+                        sapAccess.MiscFixedAssetSearch(
+                            miscFixedAssetSearch);
                     }
                     finally
                     {
@@ -73,8 +73,8 @@ namespace FixedAsset.Controllers
             }
             catch (Exception exception)
             {
-                Log.Error(exception, "Error inside searchfixedassettransfer");
-                assetTransferSearch.ResponseMessage =
+                Log.Error(exception, "Error inside searchfixedAssetAcquisition");
+                miscFixedAssetSearch.ResponseMessage =
                     new ResponseMessage(HttpStatusCode.InternalServerError,
                         exception.Message);
             }
@@ -85,13 +85,13 @@ namespace FixedAsset.Controllers
 
             result.Content =
                 new StringContent(
-                    JsonConvert.SerializeObject(assetTransferSearch),
+                    JsonConvert.SerializeObject(miscFixedAssetSearch),
                     System.Text.Encoding.UTF8,
                     "application/json");
-            result.StatusCode = assetTransferSearch.ResponseMessage.responseCode;
+            result.StatusCode = miscFixedAssetSearch.ResponseMessage.responseCode;
             Log.Information(
-                     "Response - parameters: {params}",
-                     JsonConvert.SerializeObject(assetTransferSearch));
+                             "Response - parameters: {params}",
+                             JsonConvert.SerializeObject(miscFixedAssetSearch));
             return result;
         }
 

@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.28307.960
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FixedAsset", "FixedAsset.csproj", "{C128DBB4-8FD2-4C6F-83E5-0653FBF6993C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NUnitTestFixedAsset", "..\NUnitTestFixedAsset\NUnitTestFixedAsset\NUnitTestFixedAsset.csproj", "{66B65ADF-1358-4809-B89D-CCA9D69ED159}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NUnitTestFixedAsset", "..\NUnitTestFixedAsset\NUnitTestFixedAsset\NUnitTestFixedAsset.csproj", "{66B65ADF-1358-4809-B89D-CCA9D69ED159}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -38,10 +38,10 @@ namespace FixedAsset.Models
         public string OrderType;
 
         [DataMember]
-        public DateTime? ValidFrom;
+        public string ValidFrom;
 
         [DataMember]
-        public DateTime? ValidTo;
+        public string ValidTo;
 
 
 
@@ -51,8 +51,8 @@ namespace FixedAsset.Models
             string costCentreCode,
             string costCentreDescription,
             string companyCode,
-            DateTime? validFrom,
-            DateTime? validTo,
+            string validFrom,
+            string validTo,
             string orderCode,
             string orderType,
             string orderDescription

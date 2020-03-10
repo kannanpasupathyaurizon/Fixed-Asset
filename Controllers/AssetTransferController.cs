@@ -95,7 +95,9 @@ namespace FixedAsset.Controllers
                     System.Text.Encoding.UTF8,
                     "application/json");
             result.StatusCode = assetTransferRequest.ResponseMessage.responseCode;
-           
+            Log.Information(
+                             "Response - parameters: {params}",
+                             JsonConvert.SerializeObject(assetTransferRequest));
             return result;
         }
     }

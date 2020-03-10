@@ -182,24 +182,31 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\AssetAcquisitionController.cs" />
     <Compile Include="Controllers\AssetTransferController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MiscSearchFixedAssetAcquisitionController.cs" />
     <Compile Include="Controllers\MiscSearchFixedAssetTransferController.cs" />
     <Compile Include="Controllers\SearchFixedAssetController.cs" />
     <Compile Include="Controllers\SearchAssetController.cs" />
     <Compile Include="Controllers\AssetDisposalController.cs" />
+    <Compile Include="Controllers\SearchFixedAssetAcquisitionController.cs" />
     <Compile Include="Controllers\SearchFixedAssetTransferController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AssetSearch.cs" />
     <Compile Include="Models\AssetSearchResult.cs" />
-    <Compile Include="Models\AssetTransferlRecord.cs" />
+    <Compile Include="Models\AssetAcquisitionRecord.cs" />
+    <Compile Include="Models\AssetTransferRecord.cs" />
     <Compile Include="Models\AssetDisposalRecord.cs" />
+    <Compile Include="Models\AssetAcquisitionRequest.cs" />
     <Compile Include="Models\AssetTransferRequest.cs" />
     <Compile Include="Models\AssetDisposalRequest.cs" />
     <Compile Include="Models\AssetTransfer.cs" />
+    <Compile Include="Models\AssetAcquisitionrSearch.cs" />
     <Compile Include="Models\AssetTransferSearch.cs" />
+    <Compile Include="Models\AssetAcquisitionSearchResult.cs" />
     <Compile Include="Models\AssetTransferSearchResult.cs" />
     <Compile Include="Models\FixedAssetSearchResult.cs" />
     <Compile Include="Models\FixedAssetSearch.cs" />
